@@ -10,12 +10,23 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
+#/[Pp]ackages/packages-lock.json
+
+#/[Pp]roject[Ss]ettings/EditorBuildSettings.asset
+#/[Pp]roject[Ss]ettings/ProjectVersion.txt
+#/[Pp]roject[Ss]ettings/SceneTemplateSettings.json
+
+/[Aa]ssets/Gen/
+
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
 
 # Recordings can get excessive in size
 /[Rr]ecordings/
+
+# Test folder
+/[Aa]ssets/Tests*
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
@@ -25,6 +36,11 @@
 
 # Visual Studio cache directory
 .vs/
+.vsconfig
+.editorconfig
+
+# Visual Studio Code cache directory
+.vscode/
 
 # Gradle cache directory
 .gradle/
