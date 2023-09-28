@@ -1,3 +1,4 @@
+using Cinemachine;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -10,6 +11,7 @@ public class CameraManager : NormalSingleton<CameraManager>
     public static event Action OnMainCameraChange;
 
     private static Camera mainCamera;
+    private static CinemachineBrain camBrain;
 
     public static Camera MainCamera
     {
@@ -18,15 +20,44 @@ public class CameraManager : NormalSingleton<CameraManager>
             if (!mainCamera) MainCamera = Camera.main;
             return mainCamera;
         }
-        set
+        private set
         {
             if (mainCamera != value)
             {
                 mainCamera = value;
-                Log.Info($"Current MainCamera(name: {mainCamera.name})");
+                Log.Info($"Current MainCamera: {mainCamera.name}");
+                CamBrain = mainCamera.GetComponent<CinemachineBrain>();
                 OnMainCameraChange?.Invoke();
             }
-            mainCamera = value;
+        }
+    }
+
+    public static CinemachineBrain CamBrain
+    {
+        get
+        {
+            if (!mainCamera) MainCamera = Camera.main;
+            return camBrain;
+        }
+        private set
+        {
+            if (camBrain != value)
+            {
+                camBrain = value;
+                if (camBrain) Log.Info($"Current CamBrain: {camBrain.name}");
+            }
+        }
+    }
+
+    public static ICinemachineCamera LiveCamera => CamBrain.ActiveVirtualCamera;
+
+    public static Transform Target
+    {
+        set
+        {
+            if (LiveCamera == null) return;
+            LiveCamera.Follow = value;
+            LiveCamera.LookAt = value;
         }
     }
 

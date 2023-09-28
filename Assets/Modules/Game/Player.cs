@@ -28,13 +28,9 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        var vcam = CameraManager.MainCamera.GetComponentInChildren<CinemachineVirtualCamera>();
-        if (vcam)
-        {
-            vcam.Follow = transform;
-            vcam.LookAt = transform;
-        }
+        SetCameraTarget(null, null);
 
+        CameraManager.CamBrain.m_CameraActivatedEvent.AddListener(SetCameraTarget);
         InputModule.Input.onActionTriggered += OnActionTriggered;
     }
 
@@ -76,6 +72,7 @@ public class Player : MonoBehaviour
 
     private void OnDisable()
     {
+        CameraManager.CamBrain.m_CameraActivatedEvent.RemoveListener(SetCameraTarget);
         InputModule.Input.onActionTriggered -= OnActionTriggered;
     }
 
@@ -115,5 +112,10 @@ public class Player : MonoBehaviour
                 }
                 break;
         };
+    }
+
+    private void SetCameraTarget(ICinemachineCamera from, ICinemachineCamera to)
+    {
+        CameraManager.Target = transform;
     }
 }
